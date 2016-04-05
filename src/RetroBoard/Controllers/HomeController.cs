@@ -17,18 +17,21 @@ namespace RetroBoard.Controllers
                 {
                     { new CategoryModel
                         {
+                            Id = Guid.NewGuid(),
                             Cards = new List<CardModel>(),
                             Color = "#ffffff",
                             Title = "Went Well"
                         } },
                     { new CategoryModel
                        {
+                            Id = Guid.NewGuid(),
                             Cards = new List<CardModel>(),
                             Color = "#ffffff",
                             Title = "Went Poorly"
                         } },
                     { new CategoryModel
                      {
+                            Id = Guid.NewGuid(),
                             Cards = new List<CardModel>(),
                             Color = "#ffffff",
                             Title = "Places to Improve"

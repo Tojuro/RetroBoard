@@ -9,10 +9,12 @@
 
     @foreach (var category in Model.Categories)
     {
-        <div class="droppable">
+        var catGuid = Guid.NewGuid();
+
+        <div class="droppable" id="@category.Id">
             <div class="col-md-3">
                 <h2>@category.Title</h2>
-                <div class="draggable">
+                <div class="draggable" id="@catGuid">
                     <div class="panel panel-warning">
                         <div class="panel-heading">this is test test</div>
                     </div>
@@ -30,7 +32,8 @@
         });
         $(".droppable").droppable({
             drop: function (event, ui) {
-                alert(ui.idS);
+                alert(event.target.id);
+                alert(ui.draggable[0].id);
             }
         });
     });
