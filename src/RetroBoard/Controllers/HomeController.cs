@@ -15,27 +15,65 @@ namespace RetroBoard.Controllers
             {
                 Categories = new List<CategoryModel>
                 {
-                    { new CategoryModel
+                    {
+                        new CategoryModel
                         {
                             Id = Guid.NewGuid(),
-                            Cards = new List<CardModel> { new CardModel { Id = Guid.NewGuid(), Text = "This is a card."}, new CardModel { Id = Guid.NewGuid(), Text = "My idea is different."},   },
+                            Cards =
+                                new List<CardModel>
+                                {
+                                    new CardModel {Id = Guid.NewGuid(), Text = "This is a card."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "My idea is different."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                },
                             Color = "#ffffff",
                             Title = "Went Well"
-                        } },
-                    { new CategoryModel
-                       {
+                        }
+                    },
+                    {
+                        new CategoryModel
+                        {
                             Id = Guid.NewGuid(),
-                            Cards = new List<CardModel> { new CardModel { Id = Guid.NewGuid(), Text = "This doens't make sense."}, new CardModel { Id = Guid.NewGuid(), Text = "A super-weird idea."},   },
+                            Cards =
+                                new List<CardModel>
+                                {
+                                    new CardModel {Id = Guid.NewGuid(), Text = "This doens't make sense."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                },
                             Color = "#ffffff",
                             Title = "Went Poorly"
-                        } },
-                    { new CategoryModel
-                     {
+                        }
+                    },
+                    {
+                        new CategoryModel
+                        {
                             Id = Guid.NewGuid(),
-                            Cards = new List<CardModel> { new CardModel { Id = Guid.NewGuid(), Text = "A stupid idea."}, new CardModel { Id = Guid.NewGuid(), Text = "Some fascinating idea."},   },
+                            Cards =
+                                new List<CardModel>
+                                {
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A stupid idea."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "Some fascinating idea."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A stupid idea."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "Some fascinating idea."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A super-weird idea. And not only that, but the person goes on and on and doesn't stop talking.   It's kind of annoying."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "A stupid idea."},
+                                    new CardModel {Id = Guid.NewGuid(), Text = "Some fascinating idea."},
+                                },
                             Color = "#ffffff",
                             Title = "Places to Improve"
-                        } },
+                        }
+                    },
                 },
             };
 

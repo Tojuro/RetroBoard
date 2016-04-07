@@ -1,26 +1,28 @@
-﻿@using RetroBoard.ViewModels.Home
+﻿@using Microsoft.CodeAnalysis
+@using RetroBoard.ViewModels.Home
 @model BoardViewModel
 @{
     ViewData["Title"] = "Home Page";
-    var i = 0;
+    var customPanelId = 1;
 }
 
+<link href="~/css/custom-panels.css" rel="stylesheet"/>
 
 <div class="row">
 
     @foreach (var category in Model.Categories)
     {
-        i += 1;
-        var catGuid = Guid.NewGuid();
-
         <div class="col-md-3">
             <div class="droppable" id="@category.Id" name="@category.Id">
-                <h2>@category.Title</h2>
+                <h3>@category.Title</h3>
                 @foreach (var card in category.Cards)
                 {
+                    customPanelId += 1;
+                    customPanelId = customPanelId>17 ? 1 : customPanelId;
+                    
                     <div class="draggable droppable" id="@card.Id">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">@card.Text</div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading-shared panel-heading-custom-@customPanelId">@card.Text</div>
                         </div>
                     </div>
                 }
@@ -33,7 +35,7 @@
     $(document).ready(function() {
         $(".draggable").draggable({
             cursor: 'move',
-            revert: true
+            revert: true            
         });
         $(".droppable").droppable({
             drop: function (event, ui) {
