@@ -2,6 +2,7 @@
 @model BoardViewModel
 @{
     ViewData["Title"] = "Home Page";
+    var i = 0;
 }
 
 
@@ -9,16 +10,20 @@
 
     @foreach (var category in Model.Categories)
     {
+        i += 1;
         var catGuid = Guid.NewGuid();
 
-        <div class="droppable" id="@category.Id">
-            <div class="col-md-3">
+        <div class="col-md-3">
+            <div class="droppable" id="@category.Id" name="@category.Id">
                 <h2>@category.Title</h2>
-                <div class="draggable" id="@catGuid">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">this is test test</div>
+                @foreach (var card in category.Cards)
+                {
+                    <div class="draggable droppable" id="@card.Id">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">@card.Text</div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     }
@@ -32,8 +37,15 @@
         });
         $(".droppable").droppable({
             drop: function (event, ui) {
-                alert(event.target.id);
-                alert(ui.draggable[0].id);
+                if ($('#' + event.target.id).not('.draggable').length) {
+                    $('#' + event.target.id).append($('#' + ui.draggable[0].id));
+                } else {
+                    $('#' + event.target.id).parent().append($('#' + ui.draggable[0].id));                    
+                }
+                //.append($('#' + ui.draggable[0].id));
+                //$('#' + event.target.id).append($('#' + ui.draggable[0].id));
+                //alert(event.target.id);
+                //alert(ui.draggable[0].id);
             }
         });
     });

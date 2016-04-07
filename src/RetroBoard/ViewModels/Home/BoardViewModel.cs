@@ -8,6 +8,7 @@ namespace RetroBoard.ViewModels.Home
 {
     public class CardModel
     {
+        public Guid Id { get; set; }
         public string Text { get; set; }
         public string Contributor { get; set; }
     }
