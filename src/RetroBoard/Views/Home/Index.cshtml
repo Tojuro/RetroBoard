@@ -18,36 +18,48 @@
                 @foreach (var card in category.Cards)
                 {
                     customPanelId += 1;
-                    customPanelId = customPanelId>17 ? 1 : customPanelId;
-                    
+                    customPanelId = customPanelId > 17 ? 1 : customPanelId;
+
                     <div class="draggable droppable" id="@card.Id">
                         <div class="panel panel-default">
                             <div class="panel-heading-shared panel-heading-custom-@customPanelId">@card.Text</div>
                         </div>
                     </div>
                 }
+
+                <div class="text-center" id="btn-@category.Id">
+                    <div class="btn btn-info">&nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
+                    </div>
+                </div>
+
             </div>
         </div>
     }
 
+    <div class="col-md-3">
+        <div class="text-center">
+            <br/>
+            <div class="btn btn-info">
+                &nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
+            </div>
+        </div>
+    </div>
+
 </div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $(".draggable").draggable({
             cursor: 'move',
-            revert: true            
+            revert: true
         });
         $(".droppable").droppable({
             drop: function (event, ui) {
                 if ($('#' + event.target.id).not('.draggable').length) {
-                    $('#' + event.target.id).append($('#' + ui.draggable[0].id));
+                    $('#btn-' + event.target.id).before($('#' + ui.draggable[0].id));
                 } else {
-                    $('#' + event.target.id).parent().append($('#' + ui.draggable[0].id));                    
+                    $('#' + event.target.id).before($('#' + ui.draggable[0].id));
                 }
-                //.append($('#' + ui.draggable[0].id));
-                //$('#' + event.target.id).append($('#' + ui.draggable[0].id));
-                //alert(event.target.id);
-                //alert(ui.draggable[0].id);
             }
         });
     });
