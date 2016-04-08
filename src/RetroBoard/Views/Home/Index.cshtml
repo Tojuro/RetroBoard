@@ -20,9 +20,12 @@
                     customPanelId += 1;
                     customPanelId = customPanelId > 17 ? 1 : customPanelId;
 
-                    <div class="draggable droppable" id="@card.Id">
+                    <div class="draggable droppable" ondblclick="startEdit(this);" id="@card.Id">
                         <div class="panel panel-default">
-                            <div class="panel-heading-shared panel-heading-custom-@customPanelId">@card.Text</div>
+                            <div class="panel-heading-shared panel-heading-custom-@customPanelId">
+                                <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
+                                <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
+                            </div>
                         </div>
                     </div>
                 }
@@ -48,7 +51,26 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    function hideAll() {
+        $("textarea").hide(0);
+        $("label" +
+            "").show(0);
+    }
+
+    function startEdit(ctrl) {
+        if ($("#txt-" + ctrl.id).prop("display", "none")) {
+            hideAll();
+
+            $("#txt-" + ctrl.id).show(0);
+            autosize.update($("#txt-" + ctrl.id));
+            autosize($("#txt-" + ctrl.id));
+
+            $("#lbl-" + ctrl.id).hide(0);
+        }
+    }
+
+    $(document).ready(function () {
+        autosize($("textarea"));
         $(".draggable").draggable({
             cursor: 'move',
             revert: true
