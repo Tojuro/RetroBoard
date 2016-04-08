@@ -52,9 +52,11 @@
 
 <script type="text/javascript">
     function hideAll() {
+        $("textarea:visible").each(function() {
+            $("#lbl-" + this.id.substr(4)).html(this.value);
+        });
         $("textarea").hide(0);
-        $("label" +
-            "").show(0);
+        $("label").show(0);
     }
 
     function startEdit(ctrl) {
@@ -64,13 +66,16 @@
             $("#txt-" + ctrl.id).show(0);
             autosize.update($("#txt-" + ctrl.id));
             autosize($("#txt-" + ctrl.id));
-
             $("#lbl-" + ctrl.id).hide(0);
+            $("#txt-" + ctrl.id).focus();
         }
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         autosize($("textarea"));
+
+        $("textarea").blur(function () { hideAll(); });
+
         $(".draggable").draggable({
             cursor: 'move',
             revert: true
