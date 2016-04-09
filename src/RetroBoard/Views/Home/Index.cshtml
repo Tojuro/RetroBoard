@@ -46,8 +46,10 @@
                                 <div class="panel-heading-shared panel-heading-custom-@customPanelId">
                                     <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
                                     <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
-                                    <i class="glyphicon-trash" style="font-size: 1.8em; vertical-align: bottom; text-align: right;"></i>
-                                    <i class="glyphicon-floppy-disk" style="font-size: 1.8em; vertical-align: bottom; text-align: right;"></i>
+                                    <div id="act-@card.Id" class="actionbuttons" style="text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;">
+                                        <span class="glyphicon glyphicon-trash" onclick="deleteCard('@card.Id');" aria-hidden="true"></span>&nbsp; &nbsp;
+                                        <span class="glyphicon glyphicon-save " onclick="hideAll();" aria-hidden="false"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,6 +71,7 @@
         $("textarea:visible").each(function() {
             $("#lbl-" + this.id.substr(4)).html(this.value);
         });
+        $(".actionbuttons:visible").hide(0);
         $("textarea").hide(0);
         $("label").show(0);
     }
@@ -76,13 +79,18 @@
     function startEdit(ctrl) {
         if ($("#txt-" + ctrl.id).prop("display", "none")) {
             hideAll();
-
             $("#txt-" + ctrl.id).show(0);
+            $("#act-" + ctrl.id).show(0);
             autosize.update($("#txt-" + ctrl.id));
             autosize($("#txt-" + ctrl.id));
             $("#lbl-" + ctrl.id).hide(0);
             $("#txt-" + ctrl.id).focus();
         }
+    }
+
+    function deleteCard(id) {
+        // call server!
+        $(id).remove();
     }
 
     function addCard(categoryId) {
@@ -91,7 +99,11 @@
                         "<div class=\"panel panel-default\">"+
                             "<div class=\"panel-heading-shared panel-heading-custom-"+nextPanelId()+"\">" +
                                 "<textarea id=\"txt-"+id+"\" style=\"display: none; width: 100%; color: black;\"></textarea>"+
-                                "<label style=\"color: inherit;\" id=\"lbl-"+id+"\"></label>"+
+                                "<label style=\"color: inherit;\" id=\"lbl-" + id + "\"></label>" +
+                                    "<div id=\"act-"+id+"\" class=\"actionbuttons\" style=\"text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;\">"+
+                                        "<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteCard('"+id+"');\" aria-hidden=\"true\"></span>&nbsp; &nbsp;"+
+                                        "<span class=\"glyphicon glyphicon-save\" onclick=\"hideAll();\" aria-hidden=\"false\"></span>"+
+                                    "</div>"+
                             "</div>"+
                         "</div>"+
                     "</div>");
@@ -108,7 +120,7 @@
     }
 
     function S4() {
-        return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     }
 
     var customPanelId = Math.floor(Math.random() * 16) + 1;
