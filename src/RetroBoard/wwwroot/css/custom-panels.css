@@ -1,6 +1,7 @@
 ﻿
 .panel-heading-shared {
     padding: 6px;
+    z-index: 0;
 }
 
 .panel-default > .panel-heading-custom-1 {

@@ -4,23 +4,42 @@
 @{
     ViewData["Title"] = "Home Page";
     var customPanelId = 1;
+
+    var colCount = Model.Categories.Count;
+    int bCol;
+
+    if (colCount < 4)
+    {
+        bCol = 4;
+    }
+    else if (colCount == 4)
+    {
+        bCol = 3;
+    }
+    else if (colCount < 6)
+    {
+        bCol = 2;
+    }
+    else
+    {
+        bCol = 1;
+    }
 }
 
 <link href="~/css/custom-panels.css" rel="stylesheet"/>
 
 <div class="row">
-
     @foreach (var category in Model.Categories)
     {
-        <div class="col-md-3">
-            <div class="droppable" id="@category.Id" name="@category.Id">
+        <div class="col-md-@bCol">
+            <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
                 <h3>@category.Title</h3>
                 @foreach (var card in category.Cards)
                 {
                     customPanelId += 1;
                     customPanelId = customPanelId > 17 ? 1 : customPanelId;
 
-                    <div class="draggable droppable" ondblclick="startEdit(this);" id="@card.Id">
+                    <div class="sortable droppable" ondblclick="startEdit(this);" id="@card.Id">
                         <div class="panel panel-default">
                             <div class="panel-heading-shared panel-heading-custom-@customPanelId">
                                 <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
@@ -39,14 +58,14 @@
         </div>
     }
 
-    <div class="col-md-3">
+    @*<div class="col-md-@bCol">
         <div class="text-center">
             <br/>
             <div class="btn btn-info">
                 &nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
             </div>
         </div>
-    </div>
+    </div>*@
 
 </div>
 
@@ -76,18 +95,26 @@
 
         $("textarea").blur(function () { hideAll(); });
 
-        $(".draggable").draggable({
-            cursor: 'move',
-            revert: true
+        $(function () {
+            $(".connectedSortable").sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
         });
-        $(".droppable").droppable({
-            drop: function (event, ui) {
-                if ($('#' + event.target.id).not('.draggable').length) {
-                    $('#btn-' + event.target.id).before($('#' + ui.draggable[0].id));
-                } else {
-                    $('#' + event.target.id).before($('#' + ui.draggable[0].id));
-                }
-            }
-        });
+
+        //$(".sortable").sortable({
+        //    cursor: 'move',
+        //    revert: true,
+        //    stack: "parent"
+        //});
+
+        //$(".droppable").droppable({
+        //    drop: function (event, ui) {
+        //        if ($('#' + event.target.id).not('.sortable').length) {
+        //            //$('#btn-' + event.target.id).before($('#' + ui.sortable[0].id));
+        //        } else {
+        //            $('#' + event.target.id).before($('#' + ui.sortable[0].id));
+        //        }
+        //    }
+        //});
     });
 </script>
