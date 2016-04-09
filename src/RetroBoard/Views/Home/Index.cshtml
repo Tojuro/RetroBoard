@@ -23,8 +23,9 @@
     else
     {
         bCol = 1;
-    }
+    }    
 }
+
 
 <link href="~/css/custom-panels.css" rel="stylesheet"/>
 
@@ -32,40 +33,34 @@
     @foreach (var category in Model.Categories)
     {
         <div class="col-md-@bCol">
-            <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
+            <div class="">
                 <h3>@category.Title</h3>
-                @foreach (var card in category.Cards)
-                {
+                <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
+                    @foreach (var card in category.Cards)
+                    {
                     customPanelId += 1;
                     customPanelId = customPanelId > 17 ? 1 : customPanelId;
 
-                    <div class="sortable droppable" ondblclick="startEdit(this);" id="@card.Id">
-                        <div class="panel panel-default">
-                            <div class="panel-heading-shared panel-heading-custom-@customPanelId">
-                                <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
-                                <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
+                        <div class="sortable droppable" ondblclick="startEdit(this);" id="@card.Id">
+                            <div class="panel panel-default">
+                                <div class="panel-heading-shared panel-heading-custom-@customPanelId">
+                                    <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
+                                    <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
+                                    <i class="glyphicon-trash" style="font-size: 1.8em; vertical-align: bottom; text-align: right;"></i>
+                                    <i class="glyphicon-floppy-disk" style="font-size: 1.8em; vertical-align: bottom; text-align: right;"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-
+                    }
+                </div>
                 <div class="text-center" id="btn-@category.Id">
-                    <div class="btn btn-info">&nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
+                    <div class="btn btn-info" onclick="addCard('@category.Id');">&nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
                     </div>
                 </div>
 
             </div>
         </div>
     }
-
-    @*<div class="col-md-@bCol">
-        <div class="text-center">
-            <br/>
-            <div class="btn btn-info">
-                &nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
-            </div>
-        </div>
-    </div>*@
 
 </div>
 
@@ -90,6 +85,34 @@
         }
     }
 
+    function addCard(categoryId) {
+        var id = getGuid();
+        $("#" + categoryId).append("<div class=\"sortable droppable\" ondblclick=\"startEdit(this);\" id=\""  + id + "\">"+
+                        "<div class=\"panel panel-default\">"+
+                            "<div class=\"panel-heading-shared panel-heading-custom-"+nextPanelId()+"\">" +
+                                "<textarea id=\"txt-"+id+"\" style=\"display: none; width: 100%; color: black;\"></textarea>"+
+                                "<label style=\"color: inherit;\" id=\"lbl-"+id+"\"></label>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>");
+        $("textarea").blur(function () { hideAll(); });
+    }
+
+    function nextPanelId() {
+        customPanelId = customPanelId >= 17 ? 1 : customPanelId+1;
+        return customPanelId;
+    }
+
+    function getGuid() {
+        return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+    }
+
+    function S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+    }
+
+    var customPanelId = Math.floor(Math.random() * 16) + 1;
+
     $(document).ready(function() {
         autosize($("textarea"));
 
@@ -100,21 +123,5 @@
                 connectWith: ".connectedSortable"
             }).disableSelection();
         });
-
-        //$(".sortable").sortable({
-        //    cursor: 'move',
-        //    revert: true,
-        //    stack: "parent"
-        //});
-
-        //$(".droppable").droppable({
-        //    drop: function (event, ui) {
-        //        if ($('#' + event.target.id).not('.sortable').length) {
-        //            //$('#btn-' + event.target.id).before($('#' + ui.sortable[0].id));
-        //        } else {
-        //            $('#' + event.target.id).before($('#' + ui.sortable[0].id));
-        //        }
-        //    }
-        //});
     });
 </script>
