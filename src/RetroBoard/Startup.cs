@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http.Abstractions;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
@@ -90,17 +91,7 @@ namespace RetroBoard
 
             app.UseIdentity();
 
-            app.UseFacebookAuthentication(options =>
-            {
-                options.AppId = "1761354530768066";
-                options.AppSecret = "aa8af212c4826c2f6e946c5ae0277e93";
-            });
-
-            app.UseTwitterAuthentication(options =>
-            {
-                options.ConsumerKey = "YAGCwOPAA243OGXNBZPBhSlsV";
-                options.ConsumerSecret = "xSbFxmfMLGpWIEmR8m2sgjuZr47qBTkvnECsdEUAVULlvFkRRZ";
-            });
+            app.UseSignalR2();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
