@@ -41,7 +41,7 @@
                     customPanelId += 1;
                     customPanelId = customPanelId > 17 ? 1 : customPanelId;
 
-                        <div class="sortable droppable" ondblclick="startEdit(this);" id="@card.Id">
+                        <div class="sortable droppable" ondblclick="startEdit(this.id);" id="@card.Id">
                             <div class="panel panel-default">
                                 <div class="panel-heading-shared panel-heading-custom-@customPanelId">
                                     <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
@@ -66,25 +66,57 @@
 
 </div>
 
+<script src="/signalr/hubs"></script>
+
 <script type="text/javascript">
+    var hub;
+
+    $(document).ready(function () {
+
+        hub = $.connection.boardHub;
+
+        hub.client.broadcastMessage = new function (boardId, categoryId, cardId, cardText) {
+            if ($("#" + cardId).length) {
+                editCard(cardId, cardText);
+            } else {
+                addCard(categoryId, cardId, cardText);
+            }
+        };
+
+        hub.connection.start().done(function () {
+
+        });
+
+        autosize($("textarea"));
+
+        $("textarea").blur(function () { hideAll(); });
+
+        $(function () {
+            $(".connectedSortable").sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+        });
+    });
+
     function hideAll() {
         $("textarea:visible").each(function() {
             $("#lbl-" + this.id.substr(4)).html(this.value);
+            hub.server.sendUpdate("", $("#" + this.id).closest(".connectedSortable").prop("id"), this.id.substr(4), this.value);
         });
         $(".actionbuttons:visible").hide(0);
         $("textarea").hide(0);
         $("label").show(0);
     }
 
-    function startEdit(ctrl) {
-        if ($("#txt-" + ctrl.id).prop("display", "none")) {
+    function startEdit(id) {
+        if ($("#txt-" + id).prop("display", "none")) {
             hideAll();
-            $("#txt-" + ctrl.id).show(0);
-            $("#act-" + ctrl.id).show(0);
-            autosize.update($("#txt-" + ctrl.id));
-            autosize($("#txt-" + ctrl.id));
-            $("#lbl-" + ctrl.id).hide(0);
-            $("#txt-" + ctrl.id).focus();
+            $("#txt-" + id).show(0);
+            $("#act-" + id).show(0);
+            autosize.update($("#txt-" + id));
+            autosize($("#txt-" + id));
+            $("#lbl-" + id).hide(0);
+            $("#txt-" + id).focus();
         }
     }
 
@@ -93,20 +125,25 @@
         $(id).remove();
     }
 
-    function addCard(categoryId) {
-        var id = getGuid();
-        $("#" + categoryId).append("<div class=\"sortable droppable\" ondblclick=\"startEdit(this);\" id=\""  + id + "\">"+
-                        "<div class=\"panel panel-default\">"+
-                            "<div class=\"panel-heading-shared panel-heading-custom-"+nextPanelId()+"\">" +
-                                "<textarea id=\"txt-"+id+"\" style=\"display: none; width: 100%; color: black;\"></textarea>"+
-                                "<label style=\"color: inherit;\" id=\"lbl-" + id + "\"></label>" +
-                                    "<div id=\"act-"+id+"\" class=\"actionbuttons\" style=\"text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;\">"+
-                                        "<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteCard('"+id+"');\" aria-hidden=\"true\"></span>&nbsp; &nbsp;"+
-                                        "<span class=\"glyphicon glyphicon-save\" onclick=\"hideAll();\" aria-hidden=\"false\"></span>"+
-                                    "</div>"+
-                            "</div>"+
-                        "</div>"+
-                    "</div>");
+    function editCard(cardId, cardText) {
+        $("#txt-" + cardId).val(cardText);
+        $("#lbl-" + cardId).html(cardText);
+    }
+
+    function addCard(categoryId, cardId, cardText) {
+        var id = cardId ? cardId : getGuid();
+        $("#" + categoryId).append("<div class=\"sortable droppable\" ondblclick=\"startEdit(this.id);\" id=\""  + id + "\">"+
+            "<div class=\"panel panel-default\">"+
+            "<div class=\"panel-heading-shared panel-heading-custom-"+nextPanelId()+"\">" +
+            "<textarea id=\"txt-"+id+"\" style=\"display: none; width: 100%; color: black;\">"+cardText+"</textarea>"+
+            "<label style=\"color: inherit;\" id=\"lbl-" + id + "\">" + cardText + "</label>" +
+            "<div id=\"act-"+id+"\" class=\"actionbuttons\" style=\"text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;\">"+
+            "<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteCard('"+id+"');\" aria-hidden=\"true\"></span>&nbsp; &nbsp;"+
+            "<span class=\"glyphicon glyphicon-save\" onclick=\"hideAll();\" aria-hidden=\"false\"></span>"+
+            "</div>"+
+            "</div>"+
+            "</div>"+
+            "</div>");
         $("textarea").blur(function () { hideAll(); });
     }
 
@@ -125,15 +162,4 @@
 
     var customPanelId = Math.floor(Math.random() * 16) + 1;
 
-    $(document).ready(function() {
-        autosize($("textarea"));
-
-        $("textarea").blur(function () { hideAll(); });
-
-        $(function () {
-            $(".connectedSortable").sortable({
-                connectWith: ".connectedSortable"
-            }).disableSelection();
-        });
-    });
 </script>
