@@ -17,7 +17,7 @@ namespace RetroBoard.Hubs
         {
             Thread.Sleep(1000);
 
-            Clients.Others.broadcastMessage(boardId, categoryId, cardId, cardText);
+            Clients.All.broadcastMessage(boardId, categoryId, cardId, cardText);
         }
 
 
