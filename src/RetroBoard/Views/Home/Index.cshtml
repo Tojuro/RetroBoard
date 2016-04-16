@@ -75,7 +75,7 @@
 
         hub = $.connection.boardHub;
 
-        hub.client.broadcastMessage = function (boardId, categoryId, cardId, cardText) {
+        hub.client.broadcastMessage = new function (boardId, categoryId, cardId, cardText) {
             if ($("#" + cardId).length) {
                 editCard(cardId, cardText);
             } else {
@@ -84,14 +84,14 @@
         };
 
         hub.connection.start().done(function (val) {
-            alert(val);
+            //alert(val);
         });
 
-        hub.connection.start().fail(function (val) {
-            alert(val);
-        });
+        //hub.connection.start().fail(function (val) {
+        //    alert(val);
+        //});
 
-        hub.connection.start();
+        //hub.connection.start();
 
         autosize($("textarea"));
 
