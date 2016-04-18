@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet5-RetroBoard-d18f1090-929a-4325-9ead-380a1b8e1b22",
   "version": "1.0.0-*",
   "compilationOptions": {
@@ -28,7 +28,8 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
-    "Microsoft.AspNet.Owin": "1.0.0-rc1-final"
+    "Microsoft.AspNet.Owin": "1.0.0-rc1-final",
+    "bootstrap-tagsinput": "1.0.0"
   },
 
   "commands": {

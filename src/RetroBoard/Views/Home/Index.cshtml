@@ -28,66 +28,68 @@
 
 
 <link href="~/css/custom-panels.css" rel="stylesheet"/>
-
-<div class="row">
-
-    @{
-        if (Model.HasBoard)
-        {
-            <input type="button" class="btn btn-lg btn-default text-center" id="createButton" value="Create a RetroBoard"/>
+<link href="~/lib/bootstrap-tagsinput/src/bootstrap-tagsinput.css" rel="stylesheet" />
 
 
-            <div id="dialog-form" title="Select Fields" style="display: none; text-align: center;">
-                <form>
-                    <fieldset>
-                        <label for="name">Enter fields separated by a comma</label><br/>
-                        <input type="text" name="name" id="name" value="Went Well, Went Poorly, Places to Improve" class="text ui-corner-all" style="width: 850px;"><br/>
-                        <input type="submit" tabindex="-1" class="btn btn-default">
-                    </fieldset>
-                </form>
-            </div>
+<form action="@Url.Action("Board", "Home")" method="POST">
+    <div class="row">
 
-        }
-        else
-        {
-            foreach (var category in Model.Categories)
+        @{
+            if (!Model.HasBoard)
             {
-                <div class="col-md-@bCol">
-                    <div class="">
-                        <h3>@category.Title</h3>
-                        <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
-                            @foreach (var card in category.Cards)
-                            {
-                                customPanelId += 1;
-                                customPanelId = customPanelId > 17 ? 1 : customPanelId;
+                <input type="button" class="btn btn-lg btn-default text-center" id="createButton" value="Create a RetroBoard" />
 
-                                <div class="sortable droppable" ondblclick="startEdit(this.id);" id="@card.Id">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading-shared panel-heading-custom-@customPanelId">
-                                            <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
-                                            <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
-                                            <div id="act-@card.Id" class="actionbuttons" style="text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;">
-                                                <span class="glyphicon glyphicon-trash" onclick="deleteCard('@card.Id');" aria-hidden="true"></span>&nbsp; &nbsp;
-                                                <span class="glyphicon glyphicon-save " onclick="hideAll();" aria-hidden="false"></span>
+                <div id="dialog-form" title="Select Fields" style="display: none; text-align: center;">
+                    <fieldset>
+                        <label>Select Columns</label><br />
+                        @Html.TextBoxFor(b => b.TagColumns, new { @data_role = "tagsinput" })
+                        <br /> <br />
+                        <input type="submit" value="Get Started" tabindex="-1" class="btn btn-default">
+                    </fieldset>
+                </div>
+            }
+            else
+            {
+                foreach (var category in Model.Categories)
+                {
+                    <div class="col-md-@bCol">
+                        <div class="">
+                            <h3>@category.Title</h3>
+                            <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
+                                @foreach (var card in category.Cards)
+                                {
+                                    customPanelId += 1;
+                                    customPanelId = customPanelId > 17 ? 1 : customPanelId;
+
+                                    <div class="sortable droppable" ondblclick="startEdit(this.id);" id="@card.Id">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading-shared panel-heading-custom-@customPanelId">
+                                                <textarea id="txt-@card.Id" style="display: none; width: 100%; color: black;">@card.Text</textarea>
+                                                <label style="color: inherit;" id="lbl-@card.Id">@card.Text</label>
+                                                <div id="act-@card.Id" class="actionbuttons" style="text-align: right; vertical-align: bottom; font-size: 1.3em; display: none;">
+                                                    <span class="glyphicon glyphicon-trash" onclick="deleteCard('@card.Id');" aria-hidden="true"></span>&nbsp; &nbsp;
+                                                    <span class="glyphicon glyphicon-save " onclick="hideAll();" aria-hidden="false"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
-                        <div class="text-center" id="btn-@category.Id">
-                            <div class="btn btn-info" onclick="addLocalCard('@category.Id');">&nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
+                                }
                             </div>
-                        </div>
+                            <div class="text-center" id="btn-@category.Id">
+                                <div class="btn btn-info" onclick="addLocalCard('@category.Id');">
+                                    &nbsp;<i class="glyphicon-plus" style="font-size: 1.8em;"></i>&nbsp;
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
+                }
             }
         }
-    }
 
-</div>
+    </div>
 
+</form>
 
 <script src="/signalr/hubs"></script>
 <script type="text/javascript">

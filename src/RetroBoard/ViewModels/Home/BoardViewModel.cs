@@ -26,5 +26,6 @@ namespace RetroBoard.ViewModels.Home
         public List<CategoryModel> Categories;
         public bool HasBoard;
         public string BoardId;
+        public string TagColumns;
     }
 }

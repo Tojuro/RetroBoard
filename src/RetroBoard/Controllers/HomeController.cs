@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Mvc;
 using RetroBoard.ViewModels.Home;
 
@@ -12,11 +14,30 @@ namespace RetroBoard.Controllers
             var model = new BoardViewModel
             {
                 Categories = new List<CategoryModel>(), //GetSampleData(),
-                HasBoard = boardId==null,
+                HasBoard = boardId!=null,
                 BoardId = boardId??Guid.NewGuid().ToString(),
+                TagColumns = "Done Well,Can Improve,Changes to Make",
             };
 
             return View(model);
+        }
+
+        public IActionResult Board(string tagColumns)
+        {
+            var categories = tagColumns.Split(',').Take(6).Select(col => new CategoryModel
+            {
+                Id = Guid.NewGuid(), Title = col.ToString(), Cards = new List<CardModel>(),
+            }).ToList();
+
+
+            var model = new BoardViewModel
+            {
+                Categories = categories,
+                HasBoard = true,
+                BoardId = Guid.NewGuid().ToString(),
+            };
+
+            return View("Index", model);
         }
 
         public IActionResult Error()

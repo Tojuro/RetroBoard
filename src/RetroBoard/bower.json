@@ -7,6 +7,7 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.4",
     "jquery-ui": "1.11.4",
-    "jquery-autosize": "3.0.12"
+    "jquery-autosize": "3.0.12",
+    "bootstrap-tagsinput": "~0.8.0"
   }
 }
