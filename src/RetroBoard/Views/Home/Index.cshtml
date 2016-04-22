@@ -34,7 +34,7 @@
 <form action="@Url.Action("Board", "Home")" method="POST">
 
     <div class="row">
-        <a class="btn btn-default" href="@Url.Action("Board", "Home", new { boardId = Model.BoardId }, Uri.UriSchemeHttp)" style="float: right;">Copy Link to Clipboard</a>
+        <a class="btn btn-default btn-sm" href="@Url.Action("Board", "Home", new { boardId = Model.BoardId }, Uri.UriSchemeHttp)" style="float: right;">Copy Share Link to Clipboard</a>
     </div>
 
     <div class="row">
@@ -95,6 +95,7 @@
     </div>
 
 </form>
+
 
 <script src="/signalr/hubs"></script>
 <script type="text/javascript">
