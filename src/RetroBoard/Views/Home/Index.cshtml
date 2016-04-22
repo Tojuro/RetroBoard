@@ -23,7 +23,7 @@
     else
     {
         bCol = 1;
-    }    
+    }
 }
 
 
@@ -32,18 +32,23 @@
 
 
 <form action="@Url.Action("Board", "Home")" method="POST">
+
+    <div class="row">
+        <a class="btn btn-default" href="@Url.Action("Board", "Home", new { boardId = Model.BoardId }, Uri.UriSchemeHttp)" style="float: right;">Copy Link to Clipboard</a>
+    </div>
+
     <div class="row">
 
         @{
             if (!Model.HasBoard)
             {
-                <input type="button" class="btn btn-lg btn-default text-center" id="createButton" value="Create a RetroBoard" />
+                <input type="button" class="btn btn-lg btn-default text-center" id="createButton" value="Create a RetroBoard"/>
 
                 <div id="dialog-form" title="Select Fields" style="display: none; text-align: center;">
                     <fieldset>
-                        <label>Select Columns</label><br />
-                        @Html.TextBoxFor(b => b.TagColumns, new { @data_role = "tagsinput" })
-                        <br /> <br />
+                        <label>Select Columns</label><br/>
+                        @Html.TextBoxFor(b => b.TagColumns, new {@data_role = "tagsinput"})
+                        <br/> <br/>
                         <input type="submit" value="Get Started" tabindex="-1" class="btn btn-default">
                     </fieldset>
                 </div>
@@ -55,7 +60,7 @@
                     <div class="col-md-@bCol">
                         <div class="">
                             <h3>@category.Title</h3>
-                            <div class="droppable connectedSortable" id="@category.Id" name="@category.Id">
+                            <div class="droppable connectedSortable" style="min-height: 90px;" id="@category.Id" name="@category.Id">
                                 @foreach (var card in category.Cards)
                                 {
                                     customPanelId += 1;
@@ -95,6 +100,7 @@
 <script type="text/javascript">
  
     var hub;
+    var $boardId = @Model.BoardId;
 
     $(document).ready(function () {
 
@@ -126,6 +132,7 @@
         autosize($("textarea"));
 
         $("textarea").blur(function () { hideAll(); });
+        
 
         $(function () {
             $(".connectedSortable").sortable({
