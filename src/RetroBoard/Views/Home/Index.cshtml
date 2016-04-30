@@ -29,13 +29,18 @@
 
 <link href="~/css/custom-panels.css" rel="stylesheet"/>
 <link href="~/lib/bootstrap-tagsinput/src/bootstrap-tagsinput.css" rel="stylesheet" />
-
+<script src="~/lib/jquery-zclip/jquery.zclip.js"></script>
 
 <form action="@Url.Action("Board", "Home")" method="POST">
-
-    <div class="row">
-        <a class="btn btn-default btn-sm" href="@Url.Action("Board", "Home", new { boardId = Model.BoardId }, Uri.UriSchemeHttp)" style="float: right;">Copy Share Link to Clipboard</a>
-    </div>
+    
+    @{
+        if (Model.HasBoard)
+        {
+            <div class="row">
+                <div id="copyLinkButton" class="btn btn-default btn-sm" data-copy="@Url.Action("Board", "Home", new {boardId = Model.BoardId}, Uri.UriSchemeHttp)" style="float: right;">Copy Share Link to Clipboard</div>
+            </div>
+        }
+    }
 
     <div class="row">
 
@@ -101,9 +106,20 @@
 <script type="text/javascript">
  
     var hub;
-    var $boardId = @Model.BoardId;
+    var boardId = '@Model.BoardId';
 
     $(document).ready(function () {
+
+        $("#copyLinkButton").on('click', function (e) {
+            e.preventDefault();
+        }).each(function () {
+            $(this).zclip({
+                path: '/lib/jquery-zclip/ZeroClipboard.swf',
+                copy: function() {
+                    return $(this).data('copy');
+                }
+            });
+        });
 
         $("#createButton").button().on("click", function () {
             $('#dialog-form').show(500);
@@ -145,7 +161,7 @@
     function hideAll() {
         $("textarea:visible").each(function() {
             $("#lbl-" + this.id.substr(4)).html(this.value);
-            hub.server.sendUpdate("", $("#" + this.id).closest(".connectedSortable").prop("id"), this.id.substr(4), this.value);
+            hub.server.sendUpdate(boardId, $("#" + this.id).closest(".connectedSortable").prop("id"), this.id.substr(4), this.value);
         });
         $(".actionbuttons:visible").hide(0);
         $("textarea").hide(0);
